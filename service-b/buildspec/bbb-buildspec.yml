@@ -6,6 +6,7 @@ phases:
       docker: 18
   build:  
     commands:
+      - cd service-b
       - REPOSITORY_URI=736438768435.dkr.ecr.ap-southeast-1.amazonaws.com/bbb-service-ecr
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
