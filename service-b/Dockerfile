@@ -8,6 +8,7 @@ COPY . /my_app
 WORKDIR /my_app
 
 RUN mix deps.get
+RUN mix test
 
 EXPOSE 80
 
