@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+  build:  
+    commands:
+      - REPOSITORY_URI=736438768435.dkr.ecr.ap-southeast-1.amazonaws.com/aaa-service-ecr
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - ls -lah
+      - docker -v
+      - docker build -t $REPOSITORY_URI:latest --file Dockerfile .
+      - docker images
+      - $(aws ecr get-login --no-include-email --region ap-southeast-1)
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:latest    
+      - printf '[{"name":"aaa-cluster-container","imageUri":"%s"}]' $REPOSITORY_URI:latest > aaa-task.json
+artifacts:
+    files: aaa-task.json
