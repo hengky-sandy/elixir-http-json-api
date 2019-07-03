@@ -20,5 +20,6 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:latest    
       - printf '[{"name":"aaa-cluster-container","imageUri":"%s"}]' $REPOSITORY_URI:latest > aaa-task.json
+      - mv aaa-task.json ../
 artifacts:
     files: aaa-task.json

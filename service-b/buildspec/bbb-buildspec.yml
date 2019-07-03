@@ -20,5 +20,6 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:latest    
       - printf '[{"name":"bbb-cluster-container","imageUri":"%s"}]' $REPOSITORY_URI:latest > bbb-task.json
+      - mv bbb-task.json ../
 artifacts:
     files: bbb-task.json
